@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- 字段Map规则，下划线分割映射为驼峰结构 -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<!-- 如果字段为NULL，也执行Setter，对于Map结构尤其有用，否则Map不会存在此key -->
+		<setting name="callSettersOnNulls" value="true"/>
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.unistrong.geotsd.datasource.data.DataSourceBasicInfoEntity" alias="DataSourceBasicInfoEntity"/>
+		<typeAlias type="com.unistrong.geotsd.datasource.data.DataTableBasicInfoEntity" alias="DataTableBasicInfoEntity"/>
+		<typeAlias type="com.unistrong.geotsd.datasource.data.FieldInfoEntity" alias="FieldInfoEntity"/>
+		<typeAlias type="com.unistrong.geotsd.datasource.data.DatabaseConnInfoEntity" alias="DatabaseConnInfoEntity"/>
+		<typeAlias type="com.unistrong.geotsd.datasource.data.FilesConnInfoEntity" alias="FilesConnInfoEntity"/>
+		<typeAlias type="com.unistrong.geotsd.datasource.data.InterfaceConnInfoEntity" alias="InterfaceConnInfoEntity"/>
+		<typeAlias type="com.unistrong.geotsd.datasource.data.DataTableInfoEntity" alias="DataTableInfoEntity"/>
+	</typeAliases>
+</configuration>

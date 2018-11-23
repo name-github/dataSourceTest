@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.unistrong.geotsd.datasource.dao.FieldDao">
+    <resultMap type="FieldInfoEntity" id="FieldInfoEntity">
+        <id property="fieldId" column="FIELD_ID"/>
+        <result property="dataTableId" column="DT_ID"/>
+        <result property="dataSourceId" column="DS_ID"/>
+        <result property="fieldAlias" column="FIELD_ALIAS"/>
+        <result property="fieldName" column="FIELD_NAME"/>
+        <result property="fieldType" column="FIELD_TYPE"/>
+        <result property="remarks" column="REMARKS"/>
+        <result property="updateTime" column="MODIFY_TIME"/>
+    </resultMap>
+
+    <!--根据字段id查数据表id-->
+    <select id="getDtIdFromFieldId" parameterType="string" resultType="java.lang.String">
+        SELECT "DT_ID" FROM "public"."SKDSJ_SJYSP_T_ZD" WHERE "FIELD_ID" = #{_parameter}
+    </select>
+
+    <!--获取指定数据表，指定字段名称的个数-->
+    <select id="getCountByFieldNames" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM "public"."SKDSJ_SJYSP_T_ZD" WHERE "DT_ID" = #{dataTableId}
+        AND "FIELD_NAME" IN
+        <foreach collection="fieldNames" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--清空指定数据表内全部字段-->
+    <delete id="clearByDtIds" parameterType="java.util.Map">
+            DELETE FROM "public"."SKDSJ_SJYSP_T_ZD" WHERE "FIELD_ID" IN
+            (SELECT "FIELD_ID" FROM "public"."SKDSJ_SJYSP_T_ZD" WHERE "DT_ID" IN
+
+                <foreach collection="dataTableIds" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            )
+
+    </delete>
+
+    <!--从指定数据表，删除指定字段-->
+    <delete id="remove" parameterType="java.util.Map">
+        DELETE FROM "public"."SKDSJ_SJYSP_T_ZD" WHERE "DT_ID"= #{dataTableId} AND "FIELD_ID" IN
+        <foreach collection="fieldIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--清空指定数据源内全部字段-->
+    <delete id="clearByDsId" parameterType="java.util.Map">
+        DELETE FROM "public"."SKDSJ_SJYSP_T_ZD" WHERE "DS_ID" = #{dataSourceId}
+    </delete>
+
+    <!--根据数据表id获取字段信息-->
+    <select id="findByDtId" parameterType="string" resultMap="FieldInfoEntity">
+        SELECT
+        "FIELD_ID",
+        "DS_ID",
+        "DT_ID",
+        "FIELD_NAME",
+        "FIELD_ALIAS",
+        "FIELD_TYPE",
+        "MODIFY_TIME",
+        "REMARKS"
+        FROM "public"."SKDSJ_SJYSP_T_ZD" WHERE "DT_ID" = #{_parameter}
+    </select>
+
+    <!--为指定数据表，批量添加字段-->
+    <insert id="addNews" parameterType="java.util.Map">
+       INSERT INTO "public"."SKDSJ_SJYSP_T_ZD"(
+        "FIELD_ID",
+        "DS_ID",
+        "DT_ID",
+        "FIELD_NAME",
+        "FIELD_ALIAS",
+        "FIELD_TYPE",
+        "MODIFY_TIME",
+        "REMARKS"
+      ) VALUES
+        <foreach collection="fieldList" item="item" index="index" separator=",">
+          (
+              #{item.fieldId, jdbcType=VARCHAR}
+              ,#{dataSourceId, jdbcType=VARCHAR}
+              ,#{item.dataTableId, jdbcType=VARCHAR}
+              ,#{item.fieldName, jdbcType=VARCHAR}
+              ,#{item.fieldAlias, jdbcType=VARCHAR}
+              ,#{item.fieldType, jdbcType=INTEGER}
+              ,now()::timestamp(0)without time zone
+              ,#{item.remarks, jdbcType=VARCHAR}
+          )
+        </foreach>
+    </insert>
+
+    <!--编辑指定字段的基本属性-->
+    <update id="update" parameterType="java.util.Map">
+        UPDATE "public"."SKDSJ_SJYSP_T_ZD" SET
+         "FIELD_NAME"=#{field.fieldName},
+        "FIELD_ALIAS"=#{field.fieldAlias},
+        "FIELD_TYPE"=#{field.fieldType},
+        "MODIFY_TIME"=now()::timestamp(0)without time zone,
+        "REMARKS"=#{field.remarks}
+        WHERE "FIELD_ID"=#{field.fieldId}
+    </update>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.unistrong.geotsd.datasource.dao.DemoDao">
+
+    <resultMap type="DataSourceBasicInfoEntity" id="DataSourceBasicInfoEntity">
+        <id column="DS_ID" property="dataSourceId"/>
+        <result column="DS_NAME" property="dataSourceName"/>
+        <result column="DS_TYPE" property="dataSourceType"/>
+    </resultMap>
+    <!--基础信息添加-->
+    <insert id="addNew" parameterType="DataSourceBasicInfoEntity"><![CDATA[
+
+			INSERT INTO "public"."SKDSJ_SJYSP_T_SJYJBXX"(
+				"DS_ID"
+				,"DS_NAME"
+				,"DS_TYPE"
+				)
+			VALUES (
+				#{dataSourceId, jdbcType=VARCHAR}
+				,#{dataSourceName, jdbcType=NUMERIC}
+				,#{dataSourceType, jdbcType=VARCHAR}
+			)
+        ]]>
+    </insert>
+
+    <select id="findAll" resultMap="DataSourceBasicInfoEntity">
+        SELECT
+          *
+        FROM  "public"."SKDSJ_SJYSP_T_SJYJBXX"
+    </select>
+
+    <select id="findByPage" resultMap="DataSourceBasicInfoEntity">
+        select
+        *
+        from "public"."SKDSJ_SJYSP_T_SJYJBXX"
+    </select>
+
+
+</mapper>

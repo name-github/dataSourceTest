@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.maven:maven-monitor:2.2.1">
+    <CLASSES>
+      <root url="jar://D:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven/maven-monitor/2.2.1/afc57c3a1368cd34caccb638e00523701f398c20/maven-monitor-2.2.1.jar!/" />
+      <root url="jar://E:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven/maven-monitor/2.2.1/afc57c3a1368cd34caccb638e00523701f398c20/maven-monitor-2.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven/maven-monitor/2.2.1/3fb6b23f960fa1ab827f68612e53867b820b01f9/maven-monitor-2.2.1-sources.jar!/" />
+      <root url="jar://E:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven/maven-monitor/2.2.1/3fb6b23f960fa1ab827f68612e53867b820b01f9/maven-monitor-2.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.jackrabbit:jackrabbit-jcr-commons:1.5.0">
+    <CLASSES>
+      <root url="jar://D:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.jackrabbit/jackrabbit-jcr-commons/1.5.0/816ca280dc631b277e7b963723f2e99b038383f2/jackrabbit-jcr-commons-1.5.0.jar!/" />
+      <root url="jar://E:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.jackrabbit/jackrabbit-jcr-commons/1.5.0/816ca280dc631b277e7b963723f2e99b038383f2/jackrabbit-jcr-commons-1.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.jackrabbit/jackrabbit-jcr-commons/1.5.0/46e3b9183812623fd123253ff965a22591c58da9/jackrabbit-jcr-commons-1.5.0-sources.jar!/" />
+      <root url="jar://E:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.jackrabbit/jackrabbit-jcr-commons/1.5.0/46e3b9183812623fd123253ff965a22591c58da9/jackrabbit-jcr-commons-1.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

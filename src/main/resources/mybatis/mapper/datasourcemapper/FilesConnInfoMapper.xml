@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unistrong.geotsd.datasource.dao.FilesConnInfoDao">
+    <resultMap id="FilesConnInfoEntity" type="com.unistrong.geotsd.datasource.data.FilesConnInfoEntity">
+        <id column="DS_ID" property="dataSourceId"></id>
+        <result column="FILE_TYPE" property="fileType"></result>
+        <result column="FILE_PATH" property="filePath"></result>
+    </resultMap>
+    <!--新建数据源 保存文件访问信息-->
+    <insert id="addnewByFilesConnInfo" parameterType="com.unistrong.geotsd.datasource.data.FilesConnInfoEntity">
+        insert into "public"."SKDSJ_SJYSP_T_SJYWJ"("DS_ID","FILE_TYPE","FILE_PATH")values(#{dataSourceId},#{fileType},#{filePath})
+    </insert>
+
+    <!--删除文件连接信息-->
+    <delete id="removeFilesConnInfoById" parameterType="string">
+        delete from "public"."SKDSJ_SJYSP_T_SJYWJ" where "DS_ID"=#{dataSourceId}
+    </delete>
+
+    <!--按条件更新文件信息-->
+    <update id="updateFilesConnInfoById" parameterType="com.unistrong.geotsd.datasource.data.FilesConnInfoEntity">
+        update "public"."SKDSJ_SJYSP_T_SJYWJ"
+        <trim prefix="set" suffixOverrides=",">
+            <!--<if test="fileType!=null">-->"FILE_TYPE"=#{fileType},<!--</if>-->
+            <!--<if test="filePath!=null">-->"FILE_PATH"=#{filePath},<!--</if>-->
+        </trim>
+         where "DS_ID"=#{dataSourceId}
+    </update>
+
+    <select id="getFilesConnInfoById" parameterType="string" resultMap="FilesConnInfoEntity">
+        select "DS_ID","FILE_TYPE","FILE_PATH" from "public"."SKDSJ_SJYSP_T_SJYWJ" where "DS_ID"=#{dataSourceId}
+    </select>
+</mapper>

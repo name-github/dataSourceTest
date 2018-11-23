@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.maven.plugins:maven-surefire-plugin:2.22.0">
+    <CLASSES>
+      <root url="jar://D:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven.plugins/maven-surefire-plugin/2.22.0/8adc7b2b94e83a8df238bad8011b9be046f7aad5/maven-surefire-plugin-2.22.0.jar!/" />
+      <root url="jar://E:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven.plugins/maven-surefire-plugin/2.22.0/8adc7b2b94e83a8df238bad8011b9be046f7aad5/maven-surefire-plugin-2.22.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven.plugins/maven-surefire-plugin/2.22.0/3317d8dcf968edc5d939aa6449386dc0ea630af3/maven-surefire-plugin-2.22.0-sources.jar!/" />
+      <root url="jar://E:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven.plugins/maven-surefire-plugin/2.22.0/3317d8dcf968edc5d939aa6449386dc0ea630af3/maven-surefire-plugin-2.22.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

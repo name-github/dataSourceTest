@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.unistrong.geotsd.datasource.dao.DataTableDao">
+
+    <resultMap type="DataTableBasicInfoEntity" id="DataTableBasicInfoEntity">
+        <id property="dataTableId" column="DT_ID"/>
+        <result property="dataSourceId" column="DS_ID"/>
+        <result property="dataTableAlias" column="DT_ALIAS"/>
+        <result property="dataTableName" column="DT_NAME"/>
+        <result property="dataTablePK" column="DT_PK"/>
+        <result property="remarks" column="REMARKS"/>
+        <result property="updateTime" column="MODIFY_TIME"/>
+    </resultMap>
+
+    <resultMap type="DataTableInfoEntity" id="DataTableInfoEntity">
+        <id property="dataTableBasicInfo.dataTableId" column="DT_ID" jdbcType="VARCHAR"/>
+        <result property="dataTableBasicInfo.dataSourceId" column="DS_ID" jdbcType="VARCHAR"/>
+        <result property="dataTableBasicInfo.dataTableAlias" column="DT_ALIAS" jdbcType="VARCHAR"/>
+        <result property="dataTableBasicInfo.dataTableName" column="DT_NAME" jdbcType="VARCHAR"/>
+        <result property="dataTableBasicInfo.dataTablePK" column="DT_PK" jdbcType="VARCHAR"/>
+        <result property="dataTableBasicInfo.remarks" column="REMARKS" jdbcType="VARCHAR"/>
+        <collection property="fieldList" ofType="FieldInfoEntity" >
+            <id column="FIELD_ID" property="fieldId" jdbcType="VARCHAR"/>
+            <result column="FIELD_NAME" property="fieldName" jdbcType="VARCHAR"/>
+            <result column="FIELD_ALIAS" property="fieldAlias" jdbcType="VARCHAR"/>
+            <result column="FIELD_TYPE" property="fieldType" jdbcType="NUMERIC"/>
+        </collection>
+    </resultMap>
+
+
+    <!--根据数据源id获取指定数据源个数-->
+    <select id="getCountByDsId" parameterType="string" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM "public"."SKDSJ_SJYSP_T_SJYJBXX" WHERE "DS_ID" = #{_parameter}
+    </select>
+
+    <!--根据数据表id集合,获取数据表个数-->
+    <select id="getCountByDtIds" parameterType="java.util.List" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM "public"."SKDSJ_SJYSP_T_SJB" WHERE "DT_ID" IN
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--根据数据表id查数据源id-->
+    <select id="getDsIdFromDtId" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT "DS_ID" FROM "public"."SKDSJ_SJYSP_T_SJB" WHERE "DT_ID" = #{_parameter}
+    </select>
+
+
+    <!--获取指定数据源，指定数据表名称的个数-->
+    <select id="getCountByDtNames" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM "public"."SKDSJ_SJYSP_T_SJB" WHERE "DS_ID" = #{dataSourceId}
+        AND "DT_NAME" IN
+        <foreach collection="dataTableNames" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--从指定数据源，删除数据表-->
+    <delete id="remove" parameterType="java.util.Map">
+          DELETE FROM "public"."SKDSJ_SJYSP_T_SJB" WHERE "DS_ID" = #{dataSourceId}
+          AND "DT_ID" IN
+           <foreach collection="dataTableIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </delete>
+    <!--清空指定数据源内全部数据表-->
+    <delete id="clear" parameterType="java.util.Map">
+        DELETE FROM "public"."SKDSJ_SJYSP_T_SJB" WHERE "DS_ID" = #{dataSourceId}
+    </delete>
+
+    <!--根据唯一标识，获取数据表基本信息-->
+    <select id="getById" parameterType="string" resultMap="DataTableBasicInfoEntity">
+        SELECT
+        "DT_ID",
+        "DS_ID",
+        "DT_NAME",
+        "DT_PK",
+        "DT_ALIAS",
+        "MODIFY_TIME",
+        "REMARKS"
+        FROM "public"."SKDSJ_SJYSP_T_SJB" WHERE "DT_ID" = #{_parameter}
+    </select>
+
+    <!--根据数据源id，获取数据表基本信息-->
+    <select id="findAllInfoByDsId" parameterType="java.util.Map" resultMap="DataTableBasicInfoEntity">
+        SELECT
+        "DT_ID",
+        "DS_ID",
+        "DT_NAME",
+        "DT_PK",
+        "DT_ALIAS",
+        "MODIFY_TIME",
+        "REMARKS"
+        FROM "public"."SKDSJ_SJYSP_T_SJB" WHERE "DS_ID" = #{dataSourceId}
+    </select>
+
+    <!--根据数据源id，获取数据表全部信息-->
+    <select id="findAllByDsId" parameterType="java.lang.String" resultMap="DataTableInfoEntity">
+        SELECT
+        T."DT_ID",
+        T."DS_ID",
+        T."DT_NAME",
+        T."DT_PK",
+        T."DT_ALIAS",
+        T."REMARKS",
+        A."FIELD_ID",
+        A."FIELD_NAME",
+        A."FIELD_ALIAS",
+        A."FIELD_TYPE"
+        FROM "public"."SKDSJ_SJYSP_T_SJB" AS T
+              ,"public"."SKDSJ_SJYSP_T_ZD" AS A
+        WHERE 1=1
+        AND T."DT_ID" = A."DT_ID"
+        AND T."DS_ID" = #{dataSourceId, jdbcType=VARCHAR}
+    </select>
+
+    <!--根据关键字，获取指定数据源数据表基本信息-->
+    <select id="findByKW" parameterType="java.util.Map" resultMap="DataTableBasicInfoEntity">
+        SELECT
+        "DT_ID",
+        "DS_ID",
+        "DT_NAME",
+        "DT_PK",
+        "DT_ALIAS",
+        "MODIFY_TIME",
+        "REMARKS"
+        FROM "public"."SKDSJ_SJYSP_T_SJB" WHERE "DS_ID" = #{dataSourceId}
+        <if test="startTime!=null">
+            AND TO_DATE(to_char("MODIFY_TIME", 'YYYY-MM-DD HH24:mi:ss'),'YYYY-MM-DD HH24:mi:ss') &gt;= TO_DATE(#{startTime::test,jdbcType=DATE},'YYYY-MM-DD HH24:mi:ss')
+        </if>
+        <if test="endTime!=null">
+            AND TO_DATE(to_char("MODIFY_TIME", 'YYYY-MM-DD HH24:mi:ss'),'YYYY-MM-DD HH24:mi:ss') &lt;= TO_DATE(#{endTime::text,jdbcType=DATE},'YYYY-MM-DD HH24:mi:ss')
+        </if>
+        <if test="keyWords!=null and keyWords.size > 0">
+            AND (<foreach collection="keyWords" index="index" item="item" open="" separator="OR" close="">
+                "DT_NAME" LIKE CONCAT('%',#{item},'%') OR "DT_ALIAS" LIKE CONCAT('%',#{item},'%') OR
+                "DT_PK" LIKE CONCAT('%',#{item},'%') OR "DT_ID" LIKE CONCAT('%',#{item},'%') OR "REMARKS" LIKE
+                CONCAT('%',#{item},'%')
+                </foreach>)
+        </if>
+    </select>
+
+    <!--为指定数据源，批量添加多个数据表-->
+    <insert id="addNews" parameterType="java.util.List">
+      INSERT INTO "public"."SKDSJ_SJYSP_T_SJB"(
+        "DT_ID",
+        "DS_ID",
+        "DT_NAME",
+        "DT_PK",
+        "DT_ALIAS",
+        "MODIFY_TIME",
+        "REMARKS"
+      ) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+              #{item.dataTableId, jdbcType=VARCHAR}
+              ,#{item.dataSourceId, jdbcType=VARCHAR}
+              ,#{item.dataTableName, jdbcType=VARCHAR}
+              ,#{item.dataTablePK, jdbcType=VARCHAR}
+              ,#{item.dataTableAlias, jdbcType=VARCHAR}
+              ,now()::timestamp(0)without time zone
+              ,#{item.remarks, jdbcType=VARCHAR}
+          )
+        </foreach>
+
+    </insert>
+
+    <!--编辑指定数据表的基本属性-->
+    <update id="update" parameterType="java.util.Map">
+        UPDATE "public"."SKDSJ_SJYSP_T_SJB" SET
+         "DT_NAME"=#{dataTable.dataTableName},
+        "DT_ALIAS"=#{dataTable.dataTableAlias},
+        "DT_PK"=#{dataTable.dataTablePK},
+        "MODIFY_TIME"=now()::timestamp(0)without time zone,
+        "REMARKS"=#{dataTable.remarks}
+        WHERE "DT_ID"=#{dataTable.dataTableId}
+    </update>
+
+
+
+    <!--根据数据源id，获取数据表全部信息-->
+    <select id="findAllByDsIdAndDtIds" parameterType="java.util.Map" resultMap="DataTableInfoEntity">
+        SELECT
+        T."DT_ID",
+        T."DS_ID",
+        T."DT_NAME",
+        T."DT_PK",
+        T."DT_ALIAS",
+        T."REMARKS",
+        A."FIELD_ID",
+        A."FIELD_NAME",
+        A."FIELD_ALIAS",
+        A."FIELD_TYPE"
+        FROM "public"."SKDSJ_SJYSP_T_SJB" AS T
+              ,"public"."SKDSJ_SJYSP_T_ZD" AS A
+        WHERE 1=1
+        AND T."DT_ID" = A."DT_ID"
+        AND T."DS_ID" = #{dataSourceId, jdbcType=VARCHAR}
+        AND T."DT_ID" IN
+        <foreach collection="dataTableIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unistrong.geotsd.datasource.dao.DataBaseConnInfoDao">
+    <resultMap id="DataBaseConnInfoEntity" type="com.unistrong.geotsd.datasource.data.DatabaseConnInfoEntity">
+        <id column="DS_ID" property="dataSourceId"></id>
+        <result column="DS_TYPE" property="dataBaseType"></result>
+        <result column="DS_ADDR" property="address"></result>
+        <result column="DB_PORT" property="port"></result>
+        <result column="DB_NAME" property="dataBaseName"></result>
+        <result column="DB_USERNAME" property="userName"></result>
+        <result column="DB_PWD" property="password"></result>
+    </resultMap>
+    <!--新建数据源 保存数据库访问信息-->
+    <insert id="addnewByDbBasicConnInfo" parameterType="com.unistrong.geotsd.datasource.data.DatabaseConnInfoEntity">
+        insert into "public"."SKDSJ_SJYSP_T_SJYSJK"("DS_ID","DS_TYPE","DS_ADDR","DB_PORT","DB_NAME","DB_USERNAME","DB_PWD")
+        values(#{dataSourceId},#{dataBaseType},#{address},#{port},#{dataBaseName},#{userName},#{password})
+    </insert>
+
+    <!--按主键删除数据库连接信息-->
+    <delete id="removeDataBaseConnInfoById" parameterType="string">
+        delete from "public"."SKDSJ_SJYSP_T_SJYSJK" where "DS_ID"=#{dataSourceId}
+    </delete>
+
+    <!--按主键更新数据库连接信息-->
+    <update id="updateDataBaseConnInfoById" parameterType="com.unistrong.geotsd.datasource.data.DatabaseConnInfoEntity">
+        update "public"."SKDSJ_SJYSP_T_SJYSJK"
+        <trim prefix="set" suffixOverrides=",">
+            <!--<if test="dataBaseType!=null">-->"DS_TYPE"=#{dataBaseType,jdbcType=INTEGER},<!--</if>-->
+            <!--<if test="address!=null">-->"DS_ADDR"=#{address},<!--</if>-->
+            <!--<if test="port!=null">-->"DB_PORT"=#{port},<!--</if>-->
+            <!--<if test="dataBaseName!=null">-->"DB_NAME"=#{dataBaseName},<!--</if>-->
+            <!--<if test="userName!=null">-->"DB_USERNAME"=#{userName},<!--</if>-->
+            <!--<if test="password!=null">-->"DB_PWD"=#{password},<!--</if>-->
+        </trim>
+        where "DS_ID"=#{dataSourceId}
+    </update>
+
+    <select id="getDataBaseConInfoById" parameterType="string" resultMap="DataBaseConnInfoEntity">
+        select "DS_ID","DS_TYPE","DS_ADDR","DB_PORT","DB_NAME","DB_USERNAME","DB_PWD" from "public"."SKDSJ_SJYSP_T_SJYSJK"
+        where "DS_ID"=#{dataSourceId}
+    </select>
+</mapper>

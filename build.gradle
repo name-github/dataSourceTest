@@ -1,0 +1,92 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.3.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
+
+group = 'com.unistrong.geotsd'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+/*webAppDirName = 'WebContent'    // 设置 WebApp 根目录
+// 设置 Java 源码所在目录
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'resources'
+        }
+    }
+}*/
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    providedRuntime
+    all*.exclude module: 'spring-boot-starter-logging'
+    all*.exclude module: 'logback-classic'
+    all*.exclude module: 'log4j-over-slf4j'
+}
+
+dependencies {
+    compile group: 'org.springframework', name: 'spring-test', version: '5.0.7.RELEASE'
+    compile('org.springframework.boot:spring-boot-starter-freemarker')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2')
+    runtime('org.postgresql:postgresql')
+    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+    //日志
+    compile('org.springframework.boot:spring-boot-starter-log4j2:2.0.3.RELEASE')
+    compile group: 'p6spy', name: 'p6spy', version: '3.0.0'
+    //json
+    compile( 'net.sf.json-lib:json-lib:2.4:jdk15')
+    //连接池
+    compile group: 'com.alibaba', name: 'druid', version: '1.1.10'
+    //对象池
+    compile group: 'org.apache.commons', name: 'commons-pool2', version: '2.4.2'
+    //本机安装oracle使用以下驱动
+    dependencies { compile files('F:\\app\\DELL\\product\\11.2.0\\dbhome_1\\jdbc\\lib\\ojdbc6.jar')}
+    //本机没有安装oracle数据库使用以下驱动
+    //testCompile group: 'com.oracle', name: 'ojdbc6', version: '11.2.0.3'
+    //分页
+    compile group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-starter', version: '1.2.3'
+    //fastdfs
+    compile group: 'net.oschina.zcx7878', name: 'fastdfs-client-java', version: '1.27.0.0'
+	//测试组件
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.5'
+    compile group: 'org.json', name: 'json', version: '20180130'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
+    compile group: 'org.apache.maven.plugins', name: 'maven-surefire-plugin', version: '2.22.0'
+    compile group: 'net.sourceforge.jexcelapi', name: 'jxl', version: '2.6.12'
+}
+//执行TestNG测试
+test {
+    useTestNG {
+        suites(file('testng.xml'))
+    }
+}

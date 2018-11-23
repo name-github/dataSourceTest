@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unistrong.geotsd.datasource.dao.InterfaceConnInfoDao">
+    <resultMap id="InterfaceConnInfoEntity" type="com.unistrong.geotsd.datasource.data.InterfaceConnInfoEntity">
+        <id column="DS_ID" property="dataSourceId"></id>
+        <result column="INTERFACE_TYPE" property="interfaceType"></result>
+        <result column="INTERFACE_ADDR" property="interfaceAddress"></result>
+    </resultMap>
+    <!--新建数据源 保存文件访问信息-->
+    <insert id="addnewByInterfaceConnInfo" parameterType="com.unistrong.geotsd.datasource.data.InterfaceConnInfoEntity">
+        insert into "public"."SKDSJ_SJYSP_T_SJYJK"("DS_ID","INTERFACE_TYPE","INTERFACE_ADDR")
+        values(#{dataSourceId},#{interfaceType},#{interfaceAddress})
+    </insert>
+
+    <!--删除接口信息-->
+    <delete id="removeInterfaceConnInfoById" parameterType="string">
+        delete from "public"."SKDSJ_SJYSP_T_SJYJK" where "DS_ID"=#{dataSourceId}
+    </delete>
+
+    <!--按主键更新接口信息-->
+    <update id="updateInterfaceConnInfoById" parameterType="com.unistrong.geotsd.datasource.data.InterfaceConnInfoEntity">
+        update "public"."SKDSJ_SJYSP_T_SJYJK"
+        <trim prefix="set" suffixOverrides=",">
+            <!--<if test="interfaceType!=null">-->"INTERFACE_TYPE"=#{interfaceType},<!--</if>-->
+            <!--<if test="interfaceAddress!=null">-->"INTERFACE_ADDR"=#{interfaceAddress},<!--</if>-->
+        </trim>
+        where "DS_ID"=#{dataSourceId}
+    </update>
+
+    <select id="getInterfaceConnInfoById" parameterType="string" resultMap="InterfaceConnInfoEntity">
+        select "DS_ID","INTERFACE_TYPE","INTERFACE_ADDR" from "public"."SKDSJ_SJYSP_T_SJYJK"
+        where "DS_ID"=#{dataSourceId}
+    </select>
+</mapper>

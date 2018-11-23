@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unistrong.geotsd.datasource.dao.DataSourceBasicInfoDao">
+    <resultMap id="DataSourceBasicInfoEntity" type="com.unistrong.geotsd.datasource.data.DataSourceBasicInfoEntity">
+        <id column="DS_ID" property="dataSourceId"></id>
+        <result column="DS_NAME" property="dataSourceName"></result>
+        <result column="DS_TYPE" property="dataSourceType"></result>
+        <result column="MODIFY_TIME" property="modifyTime"></result>
+        <result column="REMARKS" property="remarks"></result>
+    </resultMap>
+
+    <!--新建数据源 保存数据源基本信息-->
+    <insert id="addnewByDsBasicInfo" parameterType="com.unistrong.geotsd.datasource.data.DataSourceBasicInfoEntity">
+        insert into "public"."SKDSJ_SJYSP_T_SJYJBXX"("DS_ID","DS_NAME","DS_TYPE","MODIFY_TIME","REMARKS")
+        values(#{dataSourceId},#{dataSourceName},#{dataSourceType},to_timestamp(#{modifyTime},'yyyy-MM-dd hh24:mi:ss'),#{remarks})
+    </insert>
+
+    <!--删除数据源信息-->
+    <delete id="removeDataSourceBasicInfoById"
+            parameterType="string">
+        delete from "public"."SKDSJ_SJYSP_T_SJYJBXX" where "DS_ID"=#{dataSourceId}
+    </delete>
+
+    <!--按主键查询单条数据源信息-->
+    <select id="findDataSourceBasicInfoById"
+            parameterType="string"
+            resultMap="DataSourceBasicInfoEntity">
+        select "DS_ID","DS_NAME","DS_TYPE","MODIFY_TIME","REMARKS" from "public"."SKDSJ_SJYSP_T_SJYJBXX" where "DS_ID"=#{dataSourceId}
+    </select>
+
+    <!--重命名数据源名称-->
+    <update id="updateDataSourceBasicInfoById"
+            parameterType="com.unistrong.geotsd.datasource.data.DataSourceBasicInfoEntity">
+        update "public"."SKDSJ_SJYSP_T_SJYJBXX" set "DS_NAME"=#{dataSourceName},"MODIFY_TIME"=to_timestamp(#{modifyTime},'yyyy-MM-dd hh24:mi:ss') where "DS_ID"=#{dataSourceId}
+    </update>
+
+    <!--查询所有数据源信息 支持分页-->
+    <select id="findAllByDataSourceBasicInfo"
+            parameterType="com.unistrong.geotsd.datasource.data.DataSourceBasicInfoEntity"
+            resultMap="DataSourceBasicInfoEntity">
+        select "DS_ID","DS_NAME","DS_TYPE","MODIFY_TIME","REMARKS" from "public"."SKDSJ_SJYSP_T_SJYJBXX"
+    </select>
+
+    <!--关键字OR数据源类型 检索-->
+    <select id="findDataSourceBasicConnInfoByCond" parameterType="java.util.Map" resultMap="DataSourceBasicInfoEntity">
+        select "DS_ID","DS_NAME","DS_TYPE","MODIFY_TIME","REMARKS" from "public"."SKDSJ_SJYSP_T_SJYJBXX"
+        <trim prefix="where" suffixOverrides="and">
+            <if test="dataSourceType!=null">
+                "DS_TYPE"=${dataSourceType} and
+            </if>
+            <if test="keyWordsArr!=null">
+                <foreach collection="keyWordsArr" item="keyWord" open="(" close=")" separator="or">
+                    concat("DS_ID","DS_NAME","MODIFY_TIME","REMARKS") like concat(concat('%',#{keyWord}),'%')
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+</mapper>

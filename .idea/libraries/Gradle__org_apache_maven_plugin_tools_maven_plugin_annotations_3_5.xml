@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.maven.plugin-tools:maven-plugin-annotations:3.5">
+    <CLASSES>
+      <root url="jar://D:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven.plugin-tools/maven-plugin-annotations/3.5/403ab542cc88975c9fb41c0fba893d5b0d028c97/maven-plugin-annotations-3.5.jar!/" />
+      <root url="jar://E:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven.plugin-tools/maven-plugin-annotations/3.5/403ab542cc88975c9fb41c0fba893d5b0d028c97/maven-plugin-annotations-3.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://D:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven.plugin-tools/maven-plugin-annotations/3.5/28cc93669e6bba1af1695216fcb47f389a9a89a3/maven-plugin-annotations-3.5-sources.jar!/" />
+      <root url="jar://E:/soft/gradle-4.6/caches/modules-2/files-2.1/org.apache.maven.plugin-tools/maven-plugin-annotations/3.5/28cc93669e6bba1af1695216fcb47f389a9a89a3/maven-plugin-annotations-3.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
